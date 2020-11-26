@@ -40,7 +40,7 @@ std::vector<std::string> get_objects_from_description(std::string description)
 }
 
 
-bool is_new_entity(std::string object)
+bool is_duplicate_entity(std::string object)
 {
     for (auto& element : entities) {
         if (element.compare(object) == 0){
@@ -65,7 +65,11 @@ int main()
     for (auto& description : descriptions) {
         std::vector<std::string> objects = get_objects_from_description(description);
         for (auto& object : objects){
-            std::cout << object;
+            bool result = is_duplicate_entity(object);
+            if (!result){
+                entities.push_back(object);
+            }
+            std::cout << result;
         }
         std::cout << std::endl;
     }
