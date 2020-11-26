@@ -69,9 +69,12 @@ int main()
             if (!result){
                 entities.push_back(object);
             }
-            std::cout << result;
         }
-        std::cout << std::endl;
     }
+
+    define_relationships();
+    //form_knowledge_graph();
+
+
     
 }
