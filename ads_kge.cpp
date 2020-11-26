@@ -1,4 +1,4 @@
-#include "ad_scene.hpp"
+#include "ads_kge.hpp"
 
 /**
  * author   Arjun Albert
@@ -74,7 +74,7 @@ int main()
     }
 
     define_relationships(); 
-    
+
     labelledAdjacencyGraph non_embedded_graph = form_knowledge_graph();
 
     labelledAdjacencyGraph embedded_graph = embed_knowledge_graph(non_embedded_graph);
