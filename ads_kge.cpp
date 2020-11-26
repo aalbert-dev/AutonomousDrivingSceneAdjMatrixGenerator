@@ -42,6 +42,11 @@ std::vector<std::string> get_objects_from_description(std::string description)
 
 bool is_new_entity(std::string object)
 {
+    for (auto& element : entities) {
+        if (element.compare(object) == 0){
+            return true;
+        }
+    }
     return false;
 }
 
