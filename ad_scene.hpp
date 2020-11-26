@@ -20,7 +20,15 @@ std::vector<std::string> entities;
 
 std::vector<std::string> relationships;
 
-std::string all_entities[] {"with", "before", "after"};
+std::string all_entities[] {"with", "before", "after", "none", "self"};
+
+struct labelledAdjacencyGraph{
+    std::string name;
+    std::vector<std::string> headers;
+    std::vector<std::vector<std::string>> adjacency_matrix;
+    std::vector<std::string> values;
+};
+
 
 inline void define_relationships()
 {
@@ -48,7 +56,14 @@ inline std::string get_relationship(std::string entity_1, std::string entity_2)
 {
     int entity_1_level = get_entity_level(entity_1);
     int entity_2_level = get_entity_level(entity_2);
-    
+
+    if (entity_1.compare(entity_2) == 0){
+        return all_entities[4];
+    }
+    if (entity_1_level < 0 || entity_2_level < 0){
+        return all_entities[3];
+    }
+
     if (entity_1_level == entity_2_level){
         return all_entities[0];
     }else if (entity_1_level < entity_2_level){
@@ -56,4 +71,38 @@ inline std::string get_relationship(std::string entity_1, std::string entity_2)
     }else{
         return all_entities[2];
     }
+}
+
+
+inline std::vector<std::vector<std::string>> calculate_adjacency_matrix(){
+    std::vector<std::vector<std::string>> adjacency_matrix;
+    for (std::string s1: entities){
+        std::vector<std::string> matrix_row;
+        for (std::string s2: entities){
+            std::string relation = get_relationship(s1, s2);
+            matrix_row.push_back(relation);
+        }
+        adjacency_matrix.push_back(matrix_row);
+    }
+    return adjacency_matrix;
+}
+
+
+inline labelledAdjacencyGraph form_knowledge_graph()
+{
+    labelledAdjacencyGraph non_embedded_knowledge_graph;
+    non_embedded_knowledge_graph.name = "Non embedded";
+    non_embedded_knowledge_graph.headers = entities;
+    for (std::string value: all_entities){
+        non_embedded_knowledge_graph.values.push_back(value);
+    }
+    non_embedded_knowledge_graph.adjacency_matrix = calculate_adjacency_matrix();
+    return non_embedded_knowledge_graph;
+}
+
+
+inline labelledAdjacencyGraph embed_knowledge_graph(labelledAdjacencyGraph graph)
+{
+    labelledAdjacencyGraph embedded_knowledge_graph;
+    return embedded_knowledge_graph;
 }

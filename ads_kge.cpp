@@ -74,6 +74,7 @@ int main()
     }
 
     define_relationships(); 
-    std::string result = get_relationship("Night", "Scooter");
-    std::cout << result;
+    labelledAdjacencyGraph non_embedded_graph = form_knowledge_graph();
+
+    labelledAdjacencyGraph embedded_graph = embed_knowledge_graph(non_embedded_graph);
 }
