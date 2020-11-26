@@ -54,8 +54,8 @@ bool is_duplicate_entity(std::string object)
 int main()
 {
     
-    json j = read_json("scene.json");
-    std::vector<std::string> descriptions;
+    json j = read_json(scene_data_file_name);
+    
     for (auto& element : j) {
         std::string description = get_scene_description(element);
         descriptions.push_back(description);
@@ -64,6 +64,7 @@ int main()
 
     for (auto& description : descriptions) {
         std::vector<std::string> objects = get_objects_from_description(description);
+        multi_level_descriptions.push_back(objects);
         for (auto& object : objects){
             bool result = is_duplicate_entity(object);
             if (!result){
@@ -72,9 +73,7 @@ int main()
         }
     }
 
-    define_relationships();
-    //form_knowledge_graph();
-
-
-    
+    define_relationships(); 
+    std::string result = get_relationship("Night", "Scooter");
+    std::cout << result;
 }
