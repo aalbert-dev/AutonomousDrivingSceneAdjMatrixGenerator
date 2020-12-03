@@ -8,20 +8,29 @@
  * date     11/26/2020
 **/
 
+// json namespace
 using json = nlohmann::json;
 
+// use the scene.json file as data
 std::string scene_data_file_name = "scene.json";
 
+// store all the scene descriptions
 std::vector<std::string> descriptions;
 
+// store the scene descriptions in ordered form
 std::vector<std::vector<std::string>> multi_level_descriptions;
 
+// store the scene entities as strings
 std::vector<std::string> entities;
 
+// store the scene relationships as strings
 std::vector<std::string> relationships;
 
+// define possible entity relations
 std::string all_entities[] {"with", "before", "after", "none", "self"};
 
+
+// define custom structure to hold entities and relations for an adjacency matrix graph representation knowledge graph embedding
 struct labelledAdjacencyGraph{
     std::string name;
     std::vector<std::string> headers;
@@ -30,6 +39,9 @@ struct labelledAdjacencyGraph{
 };
 
 
+/*
+ * Add all relationships to relationship data structure.
+ */
 inline void define_relationships()
 {
     for (std::string entity: all_entities){
@@ -38,6 +50,10 @@ inline void define_relationships()
 }
 
 
+/*
+ * Get the level of an entity based on the order of the entity in the structure.
+ * Returns the entity level or -1 if it does not exist in the structure. 
+ */
 inline int get_entity_level(std::string target_entity)
 {
     int i = 0;
@@ -52,6 +68,11 @@ inline int get_entity_level(std::string target_entity)
 }
 
 
+/*
+ * Find the relationship between two entities based on their level in the structure.
+ * Also check if the entities are the same or not related. 
+ * Returns the relationship between entity 1 and entity 2.
+ */
 inline std::string get_relationship(std::string entity_1, std::string entity_2)
 {
     int entity_1_level = get_entity_level(entity_1);
@@ -74,6 +95,11 @@ inline std::string get_relationship(std::string entity_1, std::string entity_2)
 }
 
 
+/*
+ * Calculate the adjacency matrix graph representation by finding the relationships between
+ * every entity in the scene.
+ * The adjacency matrix is a   
+ */
 inline std::vector<std::vector<std::string>> calculate_adjacency_matrix(){
     std::vector<std::vector<std::string>> adjacency_matrix;
     for (std::string s1: entities){
@@ -88,6 +114,11 @@ inline std::vector<std::vector<std::string>> calculate_adjacency_matrix(){
 }
 
 
+/*
+ * Add entities and relations between entities to knowledge graph adjacency matrix representation using'
+ * the defined labelledAdjacencyGraph structure.
+ * Returns the labelledAdjacencyGraph with entities and relations. 
+ */
 inline labelledAdjacencyGraph form_knowledge_graph()
 {
     labelledAdjacencyGraph non_embedded_knowledge_graph;
@@ -98,46 +129,4 @@ inline labelledAdjacencyGraph form_knowledge_graph()
     }
     non_embedded_knowledge_graph.adjacency_matrix = calculate_adjacency_matrix();
     return non_embedded_knowledge_graph;
-}
-
-
-inline float score_entity_with_relation(labelledAdjacencyGraph graph, std::string entity, std::string relation)
-{
-    return 0.0;
-}
-
-
-inline float score_relationship(labelledAdjacencyGraph graph, std::string entity_1, std::string entity_2)
-{
-    std::string relation = get_relationship(entity_1, entity_2);
-    return 0.0;
-}
-
-
-inline labelledAdjacencyGraph embed_knowledge_graph(labelledAdjacencyGraph graph)
-{
-    labelledAdjacencyGraph embedded_knowledge_graph;
-    return embedded_knowledge_graph;
-}
-
-
-inline void calculate_embedding(std::string entity)
-{
-    float margin = 0;
-
-    float pos_h_e = 0;
-    float pos_t_e = 0;
-    float pos_r_e = 0;
-
-    float neg_h_e = 0;
-    float neg_t_e = 0;
-    float neg_r_e = 0;
-
-    float pos_norm = 0;
-    float neg_norm = 0;
-
-    float pos = pow(pos_h_e + pos_r_e - pos_t_e, 2);
-    float neg = pow(neg_h_e + neg_r_e - neg_t_e, 2);
-
-    float loss = std::max(pos - neg + margin, (float) 0.0);
 }

@@ -6,7 +6,9 @@
  * date     11/26/2020
 **/
 
-
+/*
+ * Read in json file through input stream with a given file name relative to program location.
+ */ 
 json read_json(std::string file_name)
 {
     std::ifstream file_in(file_name);
@@ -15,7 +17,10 @@ json read_json(std::string file_name)
     return json_out;
 }
 
-
+/*
+ * Parse the scene description from the json element.
+ * Returns the scene description as a string.
+ */
 std::string get_scene_description(json element)
 {
     std::string element_description;
@@ -24,6 +29,10 @@ std::string get_scene_description(json element)
 }
 
 
+/*
+ * Parse a scene description into individual objects. 
+ * Returns the scene objects as a vector of strings. 
+ */
 std::vector<std::string> get_objects_from_description(std::string description)
 {
     std::string delimiter = ",";
@@ -40,6 +49,10 @@ std::vector<std::string> get_objects_from_description(std::string description)
 }
 
 
+/*
+ * Check if a scene entity already exists as a node in the graph.
+ * Returns true if the entity already exists, returns false otherwise.
+ */ 
 bool is_duplicate_entity(std::string object)
 {
     for (auto& element : entities) {
@@ -51,6 +64,11 @@ bool is_duplicate_entity(std::string object)
 }
 
 
+/*
+ * Main program loop.
+ * Reads in scene json data, adds entities and relations to an adjacency matrix graph representation.
+ * Then embeds the knowledge graph using the translating embedding model for multi-relational data.
+ */
 int main()
 {
     
@@ -76,6 +94,5 @@ int main()
     define_relationships(); 
 
     labelledAdjacencyGraph non_embedded_graph = form_knowledge_graph();
-
-    labelledAdjacencyGraph embedded_graph = embed_knowledge_graph(non_embedded_graph);
+    return 1;
 }
