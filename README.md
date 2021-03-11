@@ -1,2 +1,2 @@
 # AutonomousDrivingSceneAdjMatrixGenerator
-C++ program to perform adjacency matrix generation from an autonomous driving scene ontology.
+Generates an adjacency matrix graph from autonomous driving scene ontology data.
